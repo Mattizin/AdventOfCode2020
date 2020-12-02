@@ -13,20 +13,15 @@ class Day2 (private val inputFile: File) {
 
     fun solvePuzzlePart1() : Int {
         println("Day 2 Part 1")
-
         var correctPws = 0
 
         for(pw in passwords) {
-            val splitted = pw.split(" ")
-            val minmax = splitted[0].split("-")
-            val min = Integer.valueOf(minmax[0])
-            val max = Integer.valueOf(minmax[1])
-            val char = splitted[1][0]
-            val pwText = splitted[2]
+            val (indices, charString, pwText) = pw.split(" ")
+            val (min, max) = indices.split("-").map { s -> Integer.valueOf(s) }
 
 //            println("Line with min $min max $max char $char pwText $pwText")
 
-            if(pwText.count { c -> c == char } in min..max) {
+            if(pwText.count { c -> c == charString[0] } in min..max) {
                 correctPws++
             }
         }
@@ -37,20 +32,15 @@ class Day2 (private val inputFile: File) {
 
     fun solvePuzzlePart2() : Int {
         println("Day 2 Part 2")
-
         var correctPws = 0
 
         for(pw in passwords) {
-            val splitted = pw.split(" ")
-            val firstsecond = splitted[0].split("-")
-            val first = Integer.valueOf(firstsecond[0])
-            val second = Integer.valueOf(firstsecond[1])
-            val char = splitted[1][0]
-            val pwText = splitted[2]
+            val (indices, charString, pwText) = pw.split(" ")
+            val (first, second) = indices.split("-").map { s -> Integer.valueOf(s) }
 
-            println("Line with first $first second $second char $char pwText $pwText")
+//            println("Line with first $first second $second char $charString[0] pwText $pwText")
 
-            if((pwText[first-1] == char).xor(pwText[second-1] == char)) {
+            if((pwText[first-1] == charString[0]).xor(pwText[second-1] == charString[0])) {
                 correctPws++
             }
         }
