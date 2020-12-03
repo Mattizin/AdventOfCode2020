@@ -6,7 +6,7 @@ import java.io.File
 
 class Day1Test {
 
-    private val day1 = Day1(File(Day1::class.java.getResource("/testinput_day_1.txt").file));
+    private val day1 = Day1(File(Day1Test::class.java.getResource("/testinput_day_1.txt").file));
 
     @Test
     fun testPart1() {
