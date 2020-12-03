@@ -17,5 +17,5 @@ fun main() {
 
     var day3 = Day3(File(Day3::class.java.getResource("/input_day_3.txt").file))
     day3.solvePuzzlePart1()
-    //day3.solvePuzzlePart2()
+    day3.solvePuzzlePart2()
 }
