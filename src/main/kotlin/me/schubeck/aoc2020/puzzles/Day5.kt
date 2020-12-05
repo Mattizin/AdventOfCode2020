@@ -11,7 +11,7 @@ class Day5(inputFile: File) {
         inputFile.forEachLine { this.boardingPasses.add(it)}
     }
 
-    fun solvePuzzlePartI() : Int {
+    fun solvePuzzlePartI() : ArrayList<Int> {
         /*
         Calculate Seat iDs and return the highest
          */
@@ -26,7 +26,20 @@ class Day5(inputFile: File) {
         }
 
         println("Max Seat ID of all passes: ${seatIds.maxOrNull() ?: -1}")
-        return seatIds.maxOrNull() ?: -1
+        return seatIds
+    }
+
+    fun solvePuzzlePartII() : Int {
+        var takenSeatsSorted = solvePuzzlePartI()
+        val i = takenSeatsSorted.iterator()
+        while(i.hasNext()) {
+            var curSeatId = i.next()
+            if(takenSeatsSorted.contains(curSeatId+2).and(!takenSeatsSorted.contains(curSeatId+1))) {
+                println("Free seat at seat with Id ${curSeatId+1}")
+                return curSeatId+1
+            }
+        }
+        return -1
     }
 
     private fun calculateIndexByBinaryDesc(binaryDesc: String, startRange: IntRange) : Int {
