@@ -1,9 +1,6 @@
 package me.schubeck.aoc2020
 
-import me.schubeck.aoc2020.puzzles.Day1
-import me.schubeck.aoc2020.puzzles.Day2
-import me.schubeck.aoc2020.puzzles.Day3
-import me.schubeck.aoc2020.puzzles.Day4
+import me.schubeck.aoc2020.puzzles.*
 import java.io.File
 
 fun main() {
@@ -22,4 +19,7 @@ fun main() {
 
     val day4 = Day4(File(Day4::class.java.getResource("/input_day_4.txt").file))
     day4.solvePuzzle()
+
+    val day5 = Day5(File(Day5::class.java.getResource("/input_day_5.txt").file))
+    day5.solvePuzzlePartI()
 }
