@@ -4,33 +4,34 @@ import java.io.File
 
 class Day5(inputFile: File) {
 
-    private val boardingPasses = ArrayList<String>()
+    private val seatIds =  ArrayList<Int>()
 
     init {
         println("Advent of Code 2020 Day 5")
-        inputFile.forEachLine { this.boardingPasses.add(it)}
-    }
-
-    fun solvePuzzlePartI() : ArrayList<Int> {
         /*
-        Calculate Seat iDs and return the highest
+        Read boarding passes and calculate seat Ids
          */
-        var seatIds = ArrayList<Int>()
-
-        for(boardingPass in boardingPasses) {
-            val row = calculateIndexByBinaryDesc(boardingPass.substring(0,7), 0..127)
-            val column = calculateIndexByBinaryDesc(boardingPass.substring(7), 0..7)
+        inputFile.forEachLine {
+            val row = calculateIndexByBinaryDesc(it.substring(0,7), 0..127)
+            val column = calculateIndexByBinaryDesc(it.substring(7), 0..7)
             val seatId = row*8+column
 //            println("Pass points to seat ID $seatId with row $row and column $column")
             seatIds.add(seatId)
         }
+    }
 
+    fun solvePuzzlePartI() : Int {
+        println("Day 5 Part 1")
+        /*
+        Return the highest seatId
+         */
         println("Max Seat ID of all passes: ${seatIds.maxOrNull() ?: -1}")
-        return seatIds
+        return seatIds.maxOrNull() ?: -1
     }
 
     fun solvePuzzlePartII() : Int {
-        var takenSeatsSorted = solvePuzzlePartI()
+        println("Day 5 Part 2")
+        var takenSeatsSorted = seatIds.sorted()
         val i = takenSeatsSorted.iterator()
         while(i.hasNext()) {
             var curSeatId = i.next()

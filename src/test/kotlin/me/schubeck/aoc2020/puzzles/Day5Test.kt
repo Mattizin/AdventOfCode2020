@@ -10,6 +10,6 @@ class Day5Test {
 
     @Test
     fun testPart1() {
-        Assertions.assertEquals(820, day5.solvePuzzlePartI().maxOrNull())
+        Assertions.assertEquals(820, day5.solvePuzzlePartI())
     }
 }
