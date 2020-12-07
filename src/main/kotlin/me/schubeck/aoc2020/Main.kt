@@ -27,4 +27,7 @@ fun main() {
     val day6 = Day6(File(Day6::class.java.getResource("/input_day_6.txt").file))
     day6.solvePuzzlePartI()
     day6.solvePuzzlePartII()
+
+    val day7 = Day7(File(Day7::class.java.getResource("/input_day_7.txt").file))
+    day7.solvePuzzlePartI()
 }
