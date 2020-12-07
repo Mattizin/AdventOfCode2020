@@ -18,7 +18,7 @@ class Day7(inputFile: File) {
                     .split(" contain ")
 
             if(content.contains("no other")) {continue}
-            parsedBags[bag] =  content.replace("[0-9]".toRegex(), "")
+            parsedBags[bag] =  content
         }
     }
 
@@ -27,12 +27,19 @@ class Day7(inputFile: File) {
         var solution = 0
 
         for(bag in parsedBags) {
-            if(canContainMyBag(bag.value)) {
+            if(canContainMyBag(bag.value.replace("[0-9]".toRegex(), ""))) {
                 solution++
             }
         }
 
         println("$solution bags are capable of holding my shiny gold bag")
+        return solution
+    }
+
+    fun solvePuzzlePartII() : Int {
+        println("Day 7 Part 2")
+        val solution = calculateBagsInBag(this.parsedBags["shiny gold"].orEmpty())
+        println("$solution bags are inside of on shiny bag")
         return solution
     }
 
@@ -45,10 +52,25 @@ class Day7(inputFile: File) {
         }
         val containedBags = bagDescription.split(",").map { s -> s.trim() }
         for(containedBag in containedBags) {
-            if(canContainMyBag(this.parsedBags[containedBag].orEmpty())) {
+            if(canContainMyBag(this.parsedBags[containedBag].orEmpty().replace("[0-9]".toRegex(), ""))) {
                 return true
             }
         }
         return false
+    }
+
+    private fun calculateBagsInBag(bagDescription: String) : Int {
+        if(bagDescription.isEmpty()) {
+            return 0
+        }
+
+        var bagsInBag = 0
+        val containedBags = bagDescription.split(",").map { s -> s.trim() }
+        for(containedBag in containedBags) {
+            val numBag = Integer.valueOf(containedBag.replace("[^0-9]".toRegex(), ""))
+            bagsInBag += numBag + (numBag * calculateBagsInBag(this.parsedBags[containedBag.replace("[0-9]".toRegex(), "").trim()].orEmpty()))
+        }
+
+        return bagsInBag
     }
 }
