@@ -39,4 +39,7 @@ fun main() {
     val day9 = Day9(File(Day9::class.java.getResource("/input_day_9.txt").file))
     day9.solvePuzzlePartI(25)
     day9.solvePuzzlePartII(25)
+
+    val day10 = Day10(File(Day10::class.java.getResource("/input_day_10.txt").file))
+    day10.solvePuzzlePartI()
 }
