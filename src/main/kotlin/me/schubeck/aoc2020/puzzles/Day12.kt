@@ -55,4 +55,46 @@ class Day12(inputFile: File){
         println("Manhattan distance solution: $solution")
         return solution
     }
+
+    fun solvePuzzlePartII() : Int {
+        println("Day 12 Part 2")
+        var pX = 10
+        var pY = 1
+        var shipX = 0
+        var shipY = 0
+
+        for(action in this.actions) {
+            when(action.first) {
+                "N" -> pY += action.second
+                "S" -> pY -= action.second
+                "E" -> pX += action.second
+                "W" -> pX -= action.second
+                "L" -> {
+                    val turns = (action.second % 360) / 90
+                    for(i in 1..turns) {
+                        val tmp = pX
+                        pX = (-1) * pY
+                        pY = tmp
+                    }
+                }
+                "R" -> {
+                    val turns = (action.second % 360) / 90
+                    for(i in 1..turns) {
+                        val tmp = pX
+                        pX = pY
+                        pY = (-1) * tmp
+                    }
+                }
+                "F" -> {
+                    shipX += action.second * pX
+                    shipY += action.second * pY
+                }
+            }
+        }
+
+        println("Endpoint after going through all actions: $shipX : $shipY")
+        val solution = abs(shipX) + abs(shipY)
+        println("Manhattan distance solution: $solution")
+        return solution
+    }
 }
