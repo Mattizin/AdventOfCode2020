@@ -41,7 +41,40 @@ class Day14(inputFile: File){
         for (num in memory.filter { entry -> entry.value != 0.toBigInteger() }.values)  {
             solution += num
         }
-                println("Solution: $solution")
+        println("Solution: $solution")
+        return solution
+    }
+
+    fun solvePuzzlePartII() : BigInteger {
+        println("Day 14 Part 2")
+        val memory = HashMap<BigInteger, Int>()
+        var currentMask = ""
+
+        for(input in this.rawInput) {
+            if(input.startsWith("mask")) {
+                //parse current mask
+                currentMask = input.substring(7)
+            } else {
+                //parse memory instruction, apply mask and save to memory index
+                val initialMemIndexBinary = this.toBinary(Integer.valueOf(input.substring(4,input.lastIndexOf(']'))), 36)
+                val memValue = Integer.valueOf(input.substring(input.indexOf('=') + 2))
+                var memIndexTemplate = initialMemIndexBinary.toCharArray()
+                for(i in currentMask.indices) {
+                    if(currentMask[i] != '0') {
+                        memIndexTemplate[i] = currentMask[i]
+                    }
+                }
+                for(i in this.getAllIndicesFromTemplate(String(memIndexTemplate))) {
+                    memory[i] = memValue
+                }
+            }
+        }
+
+        var solution : BigInteger = 0.toBigInteger()
+        for (num in memory.filter { entry -> entry.value != 0 }.values)  {
+            solution += num.toBigInteger()
+        }
+        println("Solution: $solution")
         return solution
     }
 
@@ -50,5 +83,23 @@ class Day14(inputFile: File){
                 "%" + len + "s",
                 Integer.toBinaryString(x)
         ).replace(" ".toRegex(), "0")
+    }
+
+    private fun getAllIndicesFromTemplate(indexTemplate: String) : List<BigInteger> {
+        val indices = ArrayList<BigInteger>()
+
+        val indexX = indexTemplate.indexOf('X')
+        if(indexX >= 0) {
+            var newTemplate1 = indexTemplate.toCharArray()
+            newTemplate1[indexX] = '0'
+            indices.addAll(this.getAllIndicesFromTemplate(String(newTemplate1)))
+            var newTemplate2 = indexTemplate.toCharArray()
+            newTemplate2[indexX] = '1'
+            indices.addAll(this.getAllIndicesFromTemplate(String(newTemplate2)))
+        } else {
+            indices.add(BigInteger(indexTemplate, 2))
+        }
+
+        return indices
     }
 }

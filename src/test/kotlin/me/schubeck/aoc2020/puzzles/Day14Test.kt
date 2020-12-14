@@ -6,10 +6,15 @@ import java.io.File
 
 class Day14Test {
 
-    private val day14 = Day14(File(Day14Test::class.java.getResource("/testinput_day_14.txt").file))
-
     @Test
     fun testPartI() {
-        Assertions.assertEquals(165, day14.solvePuzzlePartI())
+        val day14 = Day14(File(Day14Test::class.java.getResource("/testinput_day_14.txt").file))
+        Assertions.assertEquals(165.toBigInteger(), day14.solvePuzzlePartI())
+    }
+
+    @Test
+    fun testPartII() {
+        val day14 = Day14(File(Day14Test::class.java.getResource("/testinput_day_14_2.txt").file))
+        Assertions.assertEquals(208.toBigInteger(), day14.solvePuzzlePartII())
     }
 }
