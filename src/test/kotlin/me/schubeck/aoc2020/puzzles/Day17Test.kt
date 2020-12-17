@@ -12,4 +12,9 @@ class Day17Test {
     fun testPartI() {
         Assertions.assertEquals(112, day17.solvePuzzlePartI())
     }
+
+    @Test
+    fun testPartII() {
+        Assertions.assertEquals(848, day17.solvePuzzlePartII())
+    }
 }
