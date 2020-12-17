@@ -11,6 +11,7 @@ class Day16(inputFile: File){
     private var ticketRules : Map<String,List<IntRange>>
     private var ourTicket: List<Int>
     private var nearbyTickets: List<List<Int>>
+    private var allRuleRanges: List<IntRange>
 
     init {
         println("Advent of Code 2020 Day 16")
@@ -19,12 +20,12 @@ class Day16(inputFile: File){
         this.ticketRules = parseTicketRules(input)
         this.ourTicket = parseOurTicket(input)
         this.nearbyTickets = parseNearbyTickets(input)
+        this.allRuleRanges = this.ticketRules.values.flatten()
     }
 
     fun solvePuzzlePartI() : Int {
         println("Day 16 Part 1")
 
-        val allRuleRanges: List<IntRange> = this.ticketRules.values.flatten()
         val solution = this.nearbyTickets.sumBy { ticket ->
             ticket.filter { field ->
                 allRuleRanges.none { rule -> field in rule }
@@ -32,6 +33,56 @@ class Day16(inputFile: File){
         }
         println("Sum of invalid ticket values: $solution")
         return solution
+    }
+
+    fun solvePuzzlePartII(): Long {
+        println("Day 16 Part 2")
+        val validTickets = nearbyTickets.filter { it.isValidTicket() }
+
+        val possibleFieldRules: Map<String,MutableSet<Int>> = ticketRules.keys.map { rule ->
+            rule to ourTicket.indices.filter { column ->
+                validTickets.columnPassesRule(column, rule)
+            }.toMutableSet()
+        }.toMap()
+
+        val foundRules = reduceRules(possibleFieldRules)
+
+        val solution = foundRules.entries
+                .filter { it.key.startsWith("departure") }
+                .map { ourTicket[it.value].toLong() }
+                .reduce { a, b -> a * b }
+
+        println("Solution: $solution")
+        return solution
+    }
+
+    /*
+    Add Helper method to our Ticket representation (List<Int>) determining if a single ticket is valid
+     */
+    private fun List<Int>.isValidTicket(): Boolean =
+            this.all { field ->
+                allRuleRanges.any { rule ->
+                    field in rule
+                }
+            }
+
+    private fun List<List<Int>>.columnPassesRule(column: Int, fieldName: String): Boolean =
+            this.all { ticket ->
+                ticketRules.getValue(fieldName).any { rule -> ticket[column] in rule }
+            }
+
+    private fun reduceRules(possibleRules: Map<String,MutableSet<Int>>): Map<String,Int> {
+        val foundRules = mutableMapOf<String,Int>()
+        while(foundRules.size < possibleRules.size) {
+            possibleRules.entries
+                    .filter { (_, possibleValues) -> possibleValues.size == 1 }
+                    .forEach { (rule, possibleValues) ->
+                        val columnNumber = possibleValues.first()
+                        foundRules[rule] = columnNumber
+                        possibleRules.values.forEach { it.remove(columnNumber) }
+                    }
+        }
+        return foundRules
     }
 
     /*
