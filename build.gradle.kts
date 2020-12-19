@@ -2,7 +2,7 @@ import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     application
-    kotlin("jvm") version "1.4.20"
+    kotlin("jvm") version "1.4.21"
 }
 
 group = "me.schubeck"
@@ -13,7 +13,7 @@ application {
 }
 
 tasks.withType<KotlinCompile>() {
-    kotlinOptions.jvmTarget = "13"
+    kotlinOptions.jvmTarget = "15"
 }
 
 tasks.withType<Test> {
